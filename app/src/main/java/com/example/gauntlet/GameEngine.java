@@ -9,11 +9,14 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 class GameEngine extends SurfaceView implements Runnable, GameStarter, GameEngineBroadcaster, PlayerArrowSpawner,
         AlienArrowSpawner {
     private Thread mThread = null;
     private long mFPS;
+    public static boolean isEnemySpawnerHit = false;
+    public static int aliensSpawned = 0;
 
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     UIController mUIController;
@@ -25,6 +28,7 @@ class GameEngine extends SurfaceView implements Runnable, GameStarter, GameEngin
     Renderer mRenderer;
     PhysicsEngine mPhysicsEngine;
     Level mLevel;
+    EnemySpawner mEnemySpawner;
 
 
     public GameEngine(Context context, Point size) {
@@ -100,15 +104,16 @@ class GameEngine extends SurfaceView implements Runnable, GameStarter, GameEngin
 
                     // Player hit
                     deSpawnReSpawn();
-
                 }
 
+                if (aliensSpawned <= 15) {
+                    enemySpawner();
+                }
             }
 
             // Draw all the game objects here
             // in a new way
             mRenderer.draw(objects, mGameState, mHUD);
-
 
             // Measure the frames per second in the usual way
             long timeThisFrame = System.currentTimeMillis()
@@ -150,8 +155,47 @@ class GameEngine extends SurfaceView implements Runnable, GameStarter, GameEngin
         mThread.start();
     }
 
+    public void enemySpawner() {
+
+        ArrayList<GameObject> objects = mLevel.getGameObjects();
+        Random random = new Random();
+        int SPAWN_VALUE = 5;
+        int PROB_RANGE = 10;
+        int GIVEN_VALUE = 0;
+
+        GIVEN_VALUE = random.nextInt(10);
+
+
+        if(GIVEN_VALUE == SPAWN_VALUE) {
+            //objects.get(Level.GHOST_FIRST + aliensSpawned).spawn(objects.get(Level.PLAYER_INDEX).getTransform());
+
+
+            if (aliensSpawned < 5) {
+                objects.get(Level.GHOST_FIRST + aliensSpawned).spawn(objects.get(Level.PLAYER_INDEX).getTransform());
+
+                objects.get(Level.GHOST_FIRST + aliensSpawned).getTransform().setLocation(EnemySpawner.enemySpawnerLocOne.x, EnemySpawner.enemySpawnerLocOne.y);
+
+            }
+
+            else if (aliensSpawned < 10) {
+                objects.get(Level.GHOST_FIRST + aliensSpawned).spawn(objects.get(Level.PLAYER_INDEX).getTransform());
+                objects.get(Level.GHOST_FIRST + aliensSpawned).getTransform().setLocation(EnemySpawner.enemySpawnerLocTwo.x, EnemySpawner.enemySpawnerLocTwo.y);
+            }
+
+            else if (aliensSpawned < 15) {
+                objects.get(Level.GHOST_FIRST + aliensSpawned).spawn(objects.get(Level.PLAYER_INDEX).getTransform());
+                objects.get(Level.GHOST_FIRST + aliensSpawned).getTransform().setLocation(EnemySpawner.enemySpawnerLocThree.x, EnemySpawner.enemySpawnerLocThree.y);
+            }
+
+
+            aliensSpawned++;
+        }
+
+
+    }
+
     public void deSpawnReSpawn() {
-        // Eventually this will despawn
+        // Eventually this will de spawn
         // and then respawn all the game objects
         ArrayList<GameObject> objects = mLevel.getGameObjects();
 
@@ -165,10 +209,6 @@ class GameEngine extends SurfaceView implements Runnable, GameStarter, GameEngin
         objects.get(Level.BACKGROUND_INDEX)
                 .spawn(objects.get(Level.PLAYER_INDEX)
                         .getTransform());
-
-
-      objects.get(Level.FIRST_ALIEN).spawn(objects.get(Level.PLAYER_INDEX).getTransform());
-
 
 
         Transform.resetRelativeLocation();

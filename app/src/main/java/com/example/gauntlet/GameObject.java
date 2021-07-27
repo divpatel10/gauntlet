@@ -50,6 +50,9 @@ class GameObject {
 
     void draw(Canvas canvas, Paint paint) {
         // If the object has an animation component, animate
+        if (this.getTag() == "Ghost") {
+            Renderer.numGhostsDrawn++;
+        }
         if (animationComponent != null){
             animationComponent.determineAnimation(mTransform, this);
         }

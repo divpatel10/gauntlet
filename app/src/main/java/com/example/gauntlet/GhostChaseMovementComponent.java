@@ -1,6 +1,8 @@
 package com.example.gauntlet;
 
 import android.graphics.PointF;
+import android.graphics.RectF;
+
 import java.util.Random;
 
 class GhostChaseMovementComponent implements MovementComponent {
@@ -20,6 +22,8 @@ class GhostChaseMovementComponent implements MovementComponent {
         PointF location = t.getLocation();
 
         float speed = (float)(t.getmScreenSize().x / 15);
+
+        RectF localCollider = t.getCollider();
 
         // Prevent the ship locking on too accurately
         float verticalSearchBounce = 20f * Transform.screenResConversionFactor.y;
@@ -45,9 +49,6 @@ class GhostChaseMovementComponent implements MovementComponent {
 
 
 
-
-
-
         //move vertically
         if(t.headingDown()){
             location.y += (speed) / fps;
@@ -64,8 +65,18 @@ class GhostChaseMovementComponent implements MovementComponent {
             location.x += (speed) / fps;
         }
 
+
+        localCollider.top = t.getLocation().y;
+
+        localCollider.bottom = localCollider.top + t.getObjectHeight();
+
+        localCollider.left = t.getLocation().x - t.getSize().x;
+
+        localCollider.right = localCollider.left + t.getSize().x;
+
+
         // Update the collider
-        t.updateCollider();
+
 
 
 

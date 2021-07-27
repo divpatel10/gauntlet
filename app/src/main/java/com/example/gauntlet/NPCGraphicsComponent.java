@@ -34,7 +34,10 @@ public class NPCGraphicsComponent implements GraphicsComponent {
     @Override
     public void draw(Canvas canvas, Paint paint, Transform t) {
         // Below is best for current movement..
-        GameData.resetBitmap();
+
+        if (Renderer.numGhostsDrawn == GameEngine.aliensSpawned) {
+
+        }
 
         Canvas canvas1 = new Canvas(GameData.mainBitmap);
 

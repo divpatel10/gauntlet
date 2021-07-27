@@ -57,6 +57,8 @@ class GameObjectFactory {
                 case "StdGraphicsComponent":
                     object.setGraphics(new StdGraphicsComponent(),
                             mContext, spec, objectSize);
+
+
                     break;
 
                 case "SpriteGraphicsComponent":

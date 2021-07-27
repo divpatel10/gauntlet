@@ -39,9 +39,6 @@ class PhysicsEngine {
                     if (go2.checkActive()) {
                         if (RectF.intersects(go1.getTransform().getCollider(), go2.getTransform().getCollider())) {
                             switch (go1.getTag() + " with " + go2.getTag()) {
-                                case "Player with Alien":
-
-                                case "Player with Troll":
 
                                 case "Player with Goblin":
                                     //playerHit = true;
@@ -49,20 +46,34 @@ class PhysicsEngine {
 
                                     break;
 
-                                case "Player Arrow with Alien":
+                                case "Player Arrow with Ghost":
 
-                                case "Player Arrow with Goblin":
-
-                                case "Player Arrow with Troll":
                                     mGameState.increaseScore();
 
                                     go2.setInactive();
                                     go2.spawn(objects.get(Level
                                             .PLAYER_INDEX).getTransform());
 
-                                    go1.setInactive();
+                                    Log.d("Collision-arrow", ""+
+                                            go1.getTransform().getCollider().top + "\t" +
+                                            go1.getTransform().getCollider().right + "\t"
+                                    );
+                                    Log.d("Collision-troll", ""+
+                                            go2.getTransform().getCollider().top + "\t" +
+                                            go2.getTransform().getCollider().left + "\t"
+                                    );
+
+                                    //go1.setInactive();
                                     se.playAlienExplode();
                                     break;
+
+                                case "Player Arrow with Goblin":
+
+                                    break;
+
+                                case "Player Arrow with Troll":
+                                    break;
+
                                 case "Player with PassKey":
                                     Log.d("Player", " ");
                                     Level.isLevelFinished = true;
@@ -71,9 +82,7 @@ class PhysicsEngine {
                                 case "Player with PowerUp":
                                     go2.setInactive();
                                     //increase score by 100
-                                    for(int i = 0; i < 100; i++){
                                         mGameState.increaseScore();
-                                    }
                                     break;
 
                                 default:

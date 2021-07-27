@@ -12,12 +12,16 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class GameMap {
+
+    // 0 - movable space
+    // 1 - walls
+    // 5 - enemy spawner
     public static int[][] mMapMatrix;
     private static  int MAP_ROWS;
     private static  int MAP_COLS;
-    public static Hashtable<Point, RectF> gameHashTable = new Hashtable<>();
 
     public static ArrayList<Obstacle> obstacleContainer = new ArrayList<Obstacle>();
+    public static ArrayList<Obstacle> enemySpawnerContainer = new ArrayList<Obstacle>();
     private Point lowResFactor;
     private SpatialCollision localCollisionComponent;
 
@@ -50,7 +54,6 @@ public class GameMap {
                                 obstacleRect = new RectF(((i * lowResFactor.x)), (currentRow * lowResFactor.y),
                                         (i * lowResFactor.x) + 160, (currentRow * lowResFactor.y) + 160);
 
-
                                 SpatialCollision.loadQuadrants(obstacleRect);
 
 
@@ -61,6 +64,31 @@ public class GameMap {
                         //gameHashTable.put(new Point(currentRow,i), obstacleRect);
 
 //                        }
+
+                    }
+
+                    else if(mMapMatrix[currentRow][i] == 5){
+                        enemySpawnerContainer.add(new Obstacle(new RectF(((i * lowResFactor.x)), (currentRow * lowResFactor.y),
+                                (i * lowResFactor.x) + 160, (currentRow * lowResFactor.y) + 160)));
+
+                        if (EnemySpawner.numEnemySpawners == 0) {
+                            EnemySpawner.enemySpawnerLocOne.x = i * lowResFactor.x;
+                            EnemySpawner.enemySpawnerLocOne.y = currentRow * lowResFactor.y;
+                        }
+
+                        else if (EnemySpawner.numEnemySpawners == 1) {
+                            EnemySpawner.enemySpawnerLocTwo.x = i * lowResFactor.x;
+                            EnemySpawner.enemySpawnerLocTwo.y = currentRow * lowResFactor.y;
+                        }
+
+                        else if (EnemySpawner.numEnemySpawners == 2) {
+                            EnemySpawner.enemySpawnerLocThree.x = i * lowResFactor.x;
+                            EnemySpawner.enemySpawnerLocThree.y = currentRow * lowResFactor.y;
+                        }
+
+                        EnemySpawner.numEnemySpawners++;
+
+
 
                     }
 

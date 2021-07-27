@@ -16,8 +16,8 @@ class BackgroundMovementComponent implements MovementComponent {
                         Transform playerTransform) {
 
         PointF screenSize = t.getmScreenSize();
-        mPlayerPadding.x = GameData.IMAGE_RESOLUTION_X / 10;
-        mPlayerPadding.y = GameData.IMAGE_RESOLUTION_Y / 10;
+        mPlayerPadding.x = GameData.IMAGE_RESOLUTION_X / 5;
+        mPlayerPadding.y = GameData.IMAGE_RESOLUTION_Y / 5;
         GameData.visibleScreenRect = t.getCollider();
 
         int width = 5120;

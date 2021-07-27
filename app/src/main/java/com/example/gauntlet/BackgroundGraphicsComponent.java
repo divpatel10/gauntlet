@@ -10,6 +10,7 @@ public class BackgroundGraphicsComponent implements GraphicsComponent{
     private Bitmap mBitmap;
     private Bitmap wallBitmap;
     private GameMap gameMap;
+    private Bitmap spawnerBitmap;
     public static Context context;
 
     public static ObjectSpec s1;
@@ -37,6 +38,8 @@ public class BackgroundGraphicsComponent implements GraphicsComponent{
         int resID = c.getResources().getIdentifier(s.getBitmapName(), "drawable", c.getPackageName());
         mBitmap = BitmapFactory.decodeResource(c.getResources(), resID);
         wallBitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.redwall);
+        spawnerBitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.bones);
+
         context = c;
         s1 = s;
         objectSize1 = objectSize;
@@ -46,6 +49,8 @@ public class BackgroundGraphicsComponent implements GraphicsComponent{
         mBitmap = Bitmap.createScaledBitmap(mBitmap, mScreenRes.x, mScreenRes.y, false);
         // TO DO: Confirm scaling ratio from text map to  full drawn map..
         wallBitmap = Bitmap.createScaledBitmap(wallBitmap, lowResFactor.x, lowResFactor.y, false);
+        spawnerBitmap = Bitmap.createScaledBitmap(spawnerBitmap, lowResFactor.x, lowResFactor.y, false);
+
 //        bitmapNew = Bitmap.createScaledBitmap(bitmapNew, (int)objectSize.x, (int)objectSize.y, false);
         GameData.mainBitmap = Bitmap.createBitmap(mScreenRes.x, mScreenRes.y, mBitmap.getConfig());
         GameData.initialBitmap = Bitmap.createBitmap(mScreenRes.x, mScreenRes.y, mBitmap.getConfig());
@@ -67,6 +72,11 @@ public class BackgroundGraphicsComponent implements GraphicsComponent{
                    null);
         }
 
+         for (int i = 0; i < gameMap.enemySpawnerContainer.size(); i++) {
+             canvas.drawBitmap(spawnerBitmap,gameMap.enemySpawnerContainer.get(i).location.left
+                     ,gameMap.enemySpawnerContainer.get(i).location.top, null);
+         }
+
         canvas.setBitmap(GameData.initialBitmap);
         canvas.drawBitmap(GameData.mainBitmap, 0, 0, null);
 
@@ -80,10 +90,7 @@ public class BackgroundGraphicsComponent implements GraphicsComponent{
      */
 
 
-
-
     }
-
 
     @Override
     public void draw(Canvas canvas, Paint paint, Transform m) {
@@ -106,10 +113,8 @@ public class BackgroundGraphicsComponent implements GraphicsComponent{
         }
 
         else {
-                // Portion to draw..
 
-
-
+            // Portion to draw..
             Rect fromRect1 = new Rect((int)backgroundPortionToDraw.left, (int)backgroundPortionToDraw.top,
                     (int)backgroundPortionToDraw.right, (int)backgroundPortionToDraw.bottom);
 

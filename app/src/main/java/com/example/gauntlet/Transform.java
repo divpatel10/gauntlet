@@ -35,7 +35,6 @@ class Transform {
     public PointF drawableLocation;
 
 
-
     Transform(float speed, float objectWidth,
               float objectHeight,
               PointF startingLocation,
@@ -188,13 +187,14 @@ class Transform {
        // mCollider.bottom = (mCollider.top + mObjectHeight)
             //    - mObjectHeight/10;
 
-        mCollider.bottom = (mCollider.top + (float)(mObjectHeight * .90));
+        mCollider.bottom = (mCollider.top + (float)(mObjectHeight) + 75);
+
         /*
         mCollider.right = (mCollider.left + mObjectWidth)
                 -  mObjectWidth/10;
          */
 
-        mCollider.right = (mCollider.left + (mObjectWidth / 3));
+        mCollider.right = (mCollider.left + 60);
 
     }
 
