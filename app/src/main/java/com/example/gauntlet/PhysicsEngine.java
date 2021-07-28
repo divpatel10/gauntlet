@@ -64,7 +64,6 @@ class PhysicsEngine {
                                     se.playAlienExplode();
                                     break;
                                 case "Player with PassKey":
-                                    Log.d("Player", " ");
                                     Level.isLevelFinished = true;
                                     break;
 
